@@ -243,7 +243,7 @@
             type: "POST",
             url: url,
             headers: {
-                "Content-Type": "application/json",
+                "Content": "application/json",
                 "Authorization": "Bearer " + apiKey
             },
             data: JSON.stringify({
@@ -261,17 +261,16 @@
                 $("#output").html("API请求失败，请稍后再试。");
             }
         });
-        return false; // 添加这一行，防止表单提交
+        return false; // 防止表单提交
     });
-});
 
-	// 复制结果到剪贴板
-	$("#copyBtn").click(function() {
-		var copyText = document.getElementById("output");
-		copyText.select();
-		document.execCommand("copy");
-		alert("已复制结果到剪贴板！");
-	});
+    // 复制结果到剪贴板
+    $("#copyBtn").click(function() {
+        var copyText = document.getElementById("output");
+        copyText.select();
+        document.execCommand("copy");
+        alert("已复制结果到剪贴板！");
+    });
 });
 
 </script>
