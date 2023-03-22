@@ -230,38 +230,40 @@
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 <script>
 	$(document).ready(function() {
-	$("#btn").click(function(event) {
-		event.preventDefault(); // 阻止默认提交行为
-		var input0 = $("#input0").val();
-		var input1 = $("#input1").val();
-		var input2 = $("#input2").val();
-		var input3 = $("#input3").val();
-		var input4 = $("#input4").val();
-		var result = input0 + "家长好：\n   " + input0 + "今天的物理课程已经完成，以下是" + input0 + "今天课堂情况总结与反馈，具体情况包括以下内容：\n⭕第一部分:" + input1 + "\n⭕第二部分:" + input2 + "\n⭕第三部分:" + input3 + "\n⭕第四部分:" + input4 + "\n⭕【课后要求】完成勾选的课后练习，注意认真分YOUR_API_KEY";
-		var url = "https://api.openai.com/v1/engines/davinci-codex/completions";
-
-		$.ajax({
-			type: "POST",
-			url: url,
-			headers: {
-				"Content-Type":/json",
-				"Authorization": "Bearer " + apiKey
-			},
-			data: JSON.stringify({
-			: "优化这段反馈：" + result,
-				max_tokens: 1500,
-				n: 1,
-				stop: "\n",
-					success: function(response) {
-				var output = response.choices[0].text;
-				$("#output").html(output);
-			},
-			error: function(xhr, status, error) {
-				console.log("Error: " + error);
-				$("#output").html("API请求失败，请稍后再试。");
-			}
-		});
-	});
+    $("#btn").click(function() {
+        var input0 = $("#input0").val();
+        var input1 = $("#input1").val();
+        var input2 = $("#input2").val();
+        var input3 = $("#input3").val();
+        var input4 = $("#input4").val();
+        var result = input0 + "家长好：\n   " + input0 + "今天的物理课程已经完成，以下是" + input0 + "今天课堂情况总结与反馈，具体情况包括以下内容：\n⭕第一部分:" + input1 + "\n⭕第二部分:" + input2 + "\n⭕第三部分:" + input3 + "\n⭕第四部分:" + input4 + "\n⭕【课后要求】完成勾选的课后练习，注意认真分析完成。";
+        var apiKey = "YOUR_API_KEY";
+        var url = "https://api.openai.com/v1/engines/davinci-codex/completions";
+        $.ajax({
+            type: "POST",
+            url: url,
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + apiKey
+            },
+            data: JSON.stringify({
+                prompt: "优化这段反馈：" + result,
+                max_tokens: 1500,
+                n: 1,
+                stop: "\n"
+            }),
+            success: function(response) {
+                var output = response.choices[0].text;
+                $("#output").html(output);
+            },
+            error: function(xhr, status, error) {
+                console.log("Error: " + error);
+                $("#output").html("API请求失败，请稍后再试。");
+            }
+        });
+        return false; // 添加这一行，防止表单提交
+    });
+});
 
 	// 复制结果到剪贴板
 	$("#copyBtn").click(function() {
