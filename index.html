@@ -252,8 +252,8 @@ $(document).ready(function() {
                 "Authorization": "Bearer " + apiKey
             },
             data: JSON.stringify({
-                prompt: "优化这段反馈：" + result,
-                max_tokens: 500,
+                prompt: "现在你是一个中国的老师, 学生在上玩课之后, 你需要发送一段文字描述上课情况, 请你根据我发你的文案进行优化描述：" + result,
+                max_tokens: 1500,
                 n: 1,
                 stop: ["\n"]
             }),
