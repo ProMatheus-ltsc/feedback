@@ -240,7 +240,7 @@ $(document).ready(function() {
         var result = input0 + "家长好：\n   " + input0 + "今天的物理课程已经完成，以下是" + input0 + "今天课堂情况总结与反馈，具体情况包括以下内容：\n⭕第一部分:" + input1 + "\n⭕第二部分:" + input2 + "\n⭕第三部分:" + input3 + "\n⭕第四部分:" + input4 + "\n⭕【课后要求】完成勾选的课后练习，注意认真分析完成。";
         var apiKey = $("#apiKey").val();
         if (!apiKey) {
-            $("#output").html(result);
+            $("#output").val(result);
             return false;
         }
         var url = "https://api.openai.com/v1/engines/davinci-codex/completions";
@@ -248,22 +248,22 @@ $(document).ready(function() {
             type: "POST",
             url: url,
             headers: {
-                "Content": "application/json",
+                "Content-Type": "application/json",
                 "Authorization": "Bearer " + apiKey
             },
             data: JSON.stringify({
                 prompt: "优化这段反馈：" + result,
                 max_tokens: 1500,
                 n: 1,
-                stop: "\n"
+                stop: ["\n"]
             }),
             success: function(response) {
                 var output = response.choices[0].text;
-                $("#output").html(output);
+                $("#output").val(output);
             },
             error: function(xhr, status, error) {
                 console.log("Error: " + error);
-                $("#output").html("API请求失败，请稍后再试。");
+                $("#output").val("API请求失败，请稍后再试。");
             }
         });
         return false; // 防止表单提交
