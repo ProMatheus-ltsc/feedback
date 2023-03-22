@@ -301,7 +301,31 @@
               + input2 + "\n⭕第三部分:"
               + input3 + "\n⭕第四部分:"
               + input4 + "\n⭕【课后要求】完成勾选的课后练习，注意认真分析完成。";
-      $("#output").html(result);
+      var apiKey = "YOUR_API_KEY";
+		  var url = "https://api.openai.com/v1/engines/davinci-codex/completions";
+
+		  $.ajax({
+			  type: "POST",
+			  url: url,
+			  headers: {
+				  "Content-Type": "application/json",
+				  "Authorization": "Bearer " + apiKey
+			  },
+			  data: JSON.stringify({
+				  prompt: "优化这段反馈：" + result,
+				  max_tokens: 1500,
+				  n: 1,
+				  stop: "\n",
+			  }),
+			  success: function(response) {
+				  var output = response.choices[0].text;
+				  $("#output").html(output);
+			  },
+			  error: function(xhr, status, error) {
+				  console.log("Error: " + error);
+          $("#output").html(result);
+			  }
+		  });
     });
     // 复制结果到剪贴板
     $("#copyBtn").click(function() {
